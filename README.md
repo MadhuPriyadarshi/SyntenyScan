@@ -1,6 +1,6 @@
 # SyntenyScan
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR-USERNAME/SyntenyScan/blob/main/SyntenyScan.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MadhuPriyadarshi/SyntenyScan/blob/main/SyntenyScan.ipynb)
 
 Find conserved gene order (**synteny**) between any two annotated genomes at
 NCBI, and the recent duplications (**paralogy**) inside each one — without
