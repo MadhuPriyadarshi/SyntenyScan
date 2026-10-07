@@ -1,5 +1,7 @@
 # SyntenyScan — Tutorial
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MadhuPriyadarshi/SyntenyScan/blob/main/SyntenyScan.ipynb)
+
 A complete guide for someone who has never run a bioinformatics pipeline.
 
 **Contents**
@@ -111,9 +113,9 @@ Choose **Runtime → Run all** from the menu, then leave it alone.
 
 | Step | What it does | Roughly |
 |---|---|---|
-| 1 | Reads your settings and checks them | instant |
-| 2 | Installs DIAMOND, MCScanX and the NCBI download tool | 2–3 min |
-| 3 | Downloads both genomes from NCBI | 2–5 min |
+| 1 | Asks which two genomes you want, and checks your answer | instant |
+| 2 | Installs DIAMOND, MCScanX and the NCBI download tool. Each one is tested first and skipped if it already works | 2–3 min, or 1 second on a later run |
+| 3 | Downloads both genomes from NCBI. A genome already on the machine, and complete, is not downloaded again | 2–5 min, or instant on a later run |
 | 4 | Picks one representative protein per gene | 1–2 min |
 | 5 | **Compares every protein with every other** | **10–30 min** |
 | 6 | Keeps the best five hits per query per species | seconds |
@@ -293,37 +295,51 @@ otherwise spend the session fighting a compiler.
 
 ## 9. Using it on your own crop
 
-Change four lines in **Step 1**:
 
-```python
-SPECIES_A_ACCESSION = "GCF_xxxxxxxxx.x"   # your crop
-SPECIES_A_CODE      = "ab"                # any two lowercase letters
-SPECIES_A_NAME      = "Genus species"
+**You are asked.** Nothing has to be edited, and no accession has to be looked up.
 
-SPECIES_B_ACCESSION = "GCF_yyyyyyyyy.y"   # the reference relative
-SPECIES_B_CODE      = "cd"
-SPECIES_B_NAME      = "Genus species"
-```
+Two dropdown lists appear beside Step 1 — pick a crop in each. Or leave both on
+`ask me`, and the notebook prints a numbered menu and waits for you to type a
+number. You can also type a crop name, or paste any NCBI RefSeq accession, at
+the prompt.
 
-**Finding an accession.** Search at
-[NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/). Use the
-**GCF_** number, not GCA_ — the pipeline reads RefSeq annotation, and only GCF_
-records carry it. Check that the genome's page shows an **Annotation Release**;
-not every assembly at NCBI is annotated.
+### Crops you can name directly
 
-**Choosing a reference relative.** In order of importance: same family or tribe;
-a chromosome-level assembly; mature annotation. A distant relative with a superb
-assembly usually beats a close relative with a fragmented one.
+| Type this | Species | Accession |
+|---|---|---|
+| `pigeonpea` | *Cajanus cajan* | GCF_000340665.2 |
+| `soybean` | *Glycine max* | GCF_000004515.6 |
+| `mungbean` | *Vigna radiata* | GCF_000741045.1 |
+| `adzukibean` | *Vigna angularis* | GCF_001190045.1 |
+| `cowpea` | *Vigna unguiculata* | GCF_004118075.2 |
+| `chickpea` | *Cicer arietinum* | GCF_000331145.1 |
+| `commonbean` | *Phaseolus vulgaris* | GCF_000499845.2 |
+| `medicago` | *Medicago truncatula* | GCF_003473485.1 |
+| `groundnut` | *Arachis hypogaea* | GCF_003086295.3 |
+| `pea` | *Pisum sativum* | GCF_024323335.1 |
 
-Some pairs to consider:
+**Five Indian pulses cannot be analysed yet.** *Vigna mungo* (urdbean), *Lens
+culinaris* (lentil), *Lablab purpureus* (field bean), *Macrotyloma uniflorum*
+(horse gram) and *Vigna aconitifolia* (moth bean) have no RefSeq-annotated
+genome at NCBI. The notebook names them and stops rather than failing halfway
+through a download.
 
-| Crop | Reasonable reference |
-|---|---|
-| Chickpea | *Medicago truncatula*, soybean |
-| Mungbean, urdbean | Common bean, soybean |
-| Lentil | *Medicago truncatula* |
-| Pearl millet | Foxtail millet, sorghum |
-| Finger millet | Foxtail millet, rice |
+### Pairs worth trying
+
+| Your crop | Reference | Why |
+|---|---|---|
+| Pigeonpea | `soybean` | Same tribe, excellent assembly — the published pair |
+| Mungbean | `adzukibean` | Same genus, closest annotated relative |
+| Mungbean | `commonbean` | A second, more distant view |
+| Cowpea | `commonbean` | Same tribe |
+| Chickpea | `medicago` | Same tribe |
+| Pea | `medicago` | Same tribe |
+| Groundnut | `soybean` | Distant, but the best-assembled legume |
+
+**Finding any other genome.** Search [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/)
+and use the **GCF_** number, not GCA_ — only GCF_ records carry RefSeq
+annotation. Check the page lists an **Annotation Release**; not every
+assembly at NCBI is annotated.
 
 ## 10. Limitations, stated plainly
 

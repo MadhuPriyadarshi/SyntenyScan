@@ -6,10 +6,14 @@ Find conserved gene order (**synteny**) between any two annotated genomes at
 NCBI, and the recent duplications (**paralogy**) inside each one — without
 installing anything.
 
-Click the badge above. The notebook opens in Google Colab, installs its own
-software on Google's machine, downloads the genomes, runs the analysis and
-hands back a ZIP of results. Nothing is installed on your computer, and it is
-free.
+Click the badge above. The notebook opens in Google Colab. Choose
+**Runtime → Run all**, answer the one question it asks — which two
+genomes — and it does the rest: installs its own software on Google’s
+machine, downloads the genomes, runs the analysis and hands back a ZIP of
+results. Nothing is installed on your computer, and it is free.
+
+> Use **Run all**. Pressing ▶ on the first cell alone asks the question
+> and then stops, because nothing after it has been told to run.
 
 ---
 
@@ -23,9 +27,9 @@ file, and what to use it for.
 
 | Step | What happens |
 |---|---|
-| 1 | You give two NCBI RefSeq accessions |
-| 2 | DIAMOND and MCScanX are installed automatically |
-| 3 | Both genomes are downloaded from NCBI |
+| 1 | You choose the two genomes, from a list or by accession |
+| 2 | DIAMOND and MCScanX are installed automatically — only if they are not already there |
+| 3 | Both genomes are downloaded from NCBI — skipped if already on the machine |
 | 4 | One representative protein is chosen per gene (longest coding sequence) |
 | 5 | Every protein is compared with every other (DIAMOND) |
 | 6 | Hits are cut to the best five per query **per target species** |
@@ -50,25 +54,45 @@ blocks are the signature of past genome duplication.
 
 ## Changing the species
 
-Edit four lines in **Step 1** of the notebook:
+**You are asked.** Nothing has to be edited, and no accession has to be looked up.
 
-```python
-SPECIES_A_ACCESSION = "GCF_000340665.2"   # pigeonpea, C. cajan V1.1
-SPECIES_A_CODE      = "cc"
-SPECIES_A_NAME      = "Cajanus cajan"
+Two dropdown lists appear beside Step 1 — pick a crop in each. Or leave both on
+`ask me`, and the notebook prints a numbered menu and waits for you to type a
+number. You can also type a crop name, or paste any NCBI RefSeq accession, at
+the prompt.
 
-SPECIES_B_ACCESSION = "GCF_000004515.6"   # soybean, Glycine max v4.0
-SPECIES_B_CODE      = "gm"
-SPECIES_B_NAME      = "Glycine max"
-```
+### Crops you can name directly
 
-Find accessions at [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/).
-Use the **GCF_** (RefSeq) number, not GCA_ — the pipeline reads RefSeq
-annotation. Not every assembly at NCBI is annotated; check that the genome's
-page lists an Annotation Release.
+| Type this | Species | Accession |
+|---|---|---|
+| `pigeonpea` | *Cajanus cajan* | GCF_000340665.2 |
+| `soybean` | *Glycine max* | GCF_000004515.6 |
+| `mungbean` | *Vigna radiata* | GCF_000741045.1 |
+| `adzukibean` | *Vigna angularis* | GCF_001190045.1 |
+| `cowpea` | *Vigna unguiculata* | GCF_004118075.2 |
+| `chickpea` | *Cicer arietinum* | GCF_000331145.1 |
+| `commonbean` | *Phaseolus vulgaris* | GCF_000499845.2 |
+| `medicago` | *Medicago truncatula* | GCF_003473485.1 |
+| `groundnut` | *Arachis hypogaea* | GCF_003086295.3 |
+| `pea` | *Pisum sativum* | GCF_024323335.1 |
 
-The two-letter codes are short labels that appear in the output (`cc01`,
-`gm14`). They must be two lowercase letters and must differ from each other.
+**Five Indian pulses cannot be analysed yet.** *Vigna mungo* (urdbean), *Lens
+culinaris* (lentil), *Lablab purpureus* (field bean), *Macrotyloma uniflorum*
+(horse gram) and *Vigna aconitifolia* (moth bean) have no RefSeq-annotated
+genome at NCBI. The notebook names them and stops rather than failing halfway
+through a download.
+
+### Pairs worth trying
+
+| Your crop | Reference | Why |
+|---|---|---|
+| Pigeonpea | `soybean` | Same tribe, excellent assembly — the published pair |
+| Mungbean | `adzukibean` | Same genus, closest annotated relative |
+| Mungbean | `commonbean` | A second, more distant view |
+| Cowpea | `commonbean` | Same tribe |
+| Chickpea | `medicago` | Same tribe |
+| Pea | `medicago` | Same tribe |
+| Groundnut | `soybean` | Distant, but the best-assembled legume |
 
 ## One design decision worth knowing about
 
